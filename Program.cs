@@ -1,4 +1,4 @@
-using FootballStatistics.Data;
+using FootballStatistics.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
