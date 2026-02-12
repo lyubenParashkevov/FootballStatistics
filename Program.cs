@@ -1,3 +1,5 @@
+using FootballStatistics.Core.Contracts;
+using FootballStatistics.Core.Services;
 using FootballStatistics.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,8 @@ namespace FootballStatistics
 
             builder.Services.AddDbContext<FootballStatisticsDbContext>(options =>
                 options.UseSqlServer(connectionString));
+
+            builder.Services.AddScoped<ITeamService, TeamService>();
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
