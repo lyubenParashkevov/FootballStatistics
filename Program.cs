@@ -12,12 +12,15 @@ namespace FootballStatistics
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            builder.Services.AddDbContext<FootballStatisticsDbContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                ConfigureIdentityOptions(options);
+            })
+                .AddEntityFrameworkStores<FootballStatisticsDbContext>();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
@@ -39,6 +42,7 @@ namespace FootballStatistics
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
@@ -47,6 +51,21 @@ namespace FootballStatistics
             app.MapRazorPages();
 
             app.Run();
+        }
+
+        private static void ConfigureIdentityOptions(IdentityOptions options)
+        {
+            options.User.RequireUniqueEmail = true;  
+              
+            options.Lockout.MaxFailedAccessAttempts = 5;   
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+
+      
+            options.Password.RequireDigit = true;   
+            options.Password.RequireLowercase = true;
+            options.Password.RequireNonAlphanumeric = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequiredLength = 8;
         }
     }
 }

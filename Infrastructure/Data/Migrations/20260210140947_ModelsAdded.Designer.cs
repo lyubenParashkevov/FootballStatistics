@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FootballStatistics.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(FootballStatisticsDbContext))]
     [Migration("20260210140947_ModelsAdded")]
     partial class ModelsAdded
     {

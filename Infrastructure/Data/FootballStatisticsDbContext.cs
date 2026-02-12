@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FootballStatistics.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class FootballStatisticsDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public FootballStatisticsDbContext(DbContextOptions<FootballStatisticsDbContext> options)
             : base(options)
         {
         }
