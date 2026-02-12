@@ -23,7 +23,6 @@
   <ItemGroup>
     <Folder Include="Core\Contracts\" />
     <Folder Include="Core\Services\" />
-    <Folder Include="Infrastructure\Configurations\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿using Humanizer;
+﻿using FootballStatistics.ViewModels.League;
+using Humanizer;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using static FootballStatistics.Core.Common.ValidationConstants;
@@ -19,6 +20,8 @@ namespace FootballStatistics.ViewModels.Team
         public int GoalsConceded { get; set; }
 
         [Required]
-        public int LeagueId { get; set; }
+        public int? LeagueId { get; set; }
+
+        public IEnumerable<LeagueDropdownModel> Leagues { get; set; } = new List<LeagueDropdownModel>();
     }
 }

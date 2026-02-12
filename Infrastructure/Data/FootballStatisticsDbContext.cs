@@ -17,19 +17,7 @@ namespace FootballStatistics.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
-
-            builder.Entity<Match>()
-                .HasOne(m => m.HomeTeam)
-                .WithMany(t => t.HomeMatches)
-                .HasForeignKey(m => m.HomeTeamId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Match>()
-                .HasOne(m => m.AwayTeam)
-                .WithMany(t => t.AwayMatches)
-                .HasForeignKey(m => m.AwayTeamId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.ApplyConfigurationsFromAssembly(typeof(FootballStatisticsDbContext).Assembly);
         }
     }
 }
