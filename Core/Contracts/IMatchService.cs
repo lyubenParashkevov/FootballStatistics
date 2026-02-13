@@ -1,0 +1,11 @@
+﻿using FootballStatistics.ViewModels.Match;
+
+namespace FootballStatistics.Core.Contracts
+{
+    public interface IMatchService
+    {
+        Task<IEnumerable<MatchListItemModel>> GetAllAsync();
+        Task<MatchFormModel> GetCreateModelAsync();
+        Task CreateAsync(MatchFormModel model);
+    }
+}

@@ -22,6 +22,8 @@ namespace FootballStatistics
 
             builder.Services.AddScoped<ILeagueService, LeagueService>();
 
+            builder.Services.AddScoped<IMatchService, MatchService>();
+
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options =>
