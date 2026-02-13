@@ -76,5 +76,32 @@ namespace FootballStatistics.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            TeamFormModel? model = await teamService.GetEditModelAsync(id);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            bool deleted = await teamService.DeleteAsync(id);
+
+            if (!deleted)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
