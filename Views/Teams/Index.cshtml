@@ -21,6 +21,7 @@
             <th class="text-end">Points</th>
             <th class="text-end">Scored</th>
             <th class="text-end">Conceded</th>
+            <th class="text-end">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -32,6 +33,10 @@
                 <td class="text-end">@team.Points</td>
                 <td class="text-end">@team.GoalsScored</td>
                 <td class="text-end">@team.GoalsConceded</td>
+                <td class="text-end">
+                <a asp-action="Edit" asp-route-id="@team.Id" class="btn btn-sm btn-warning">Edit</a>
+                <a asp-action="Delete" asp-route-id="@team.Id" class="btn btn-sm btn-danger">Delete</a>
+            </td>
             </tr>
         }
     </tbody>

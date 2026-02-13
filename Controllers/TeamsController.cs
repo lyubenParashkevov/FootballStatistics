@@ -43,5 +43,38 @@ namespace FootballStatistics.Controllers
             await teamService.CreateAsync(model);
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            TeamFormModel? model = await teamService.GetEditModelAsync(id);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, TeamFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.Leagues = (await teamService.GetCreateModelAsync()).Leagues;
+                return View(model);
+            }
+
+            bool updated = await teamService.UpdateAsync(id, model);
+
+            if (!updated)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
