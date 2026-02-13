@@ -17,6 +17,8 @@ namespace FootballStatistics.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
             builder.ApplyConfigurationsFromAssembly(typeof(FootballStatisticsDbContext).Assembly);
         }
     }
