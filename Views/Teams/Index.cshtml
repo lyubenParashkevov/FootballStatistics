@@ -1,5 +1,5 @@
-﻿@using FootballStatistics.ViewModels.Team;
-
+﻿
+@using FootballStatistics.ViewModels.Team
 @model IEnumerable<TeamListItemModel>
 
 @{
@@ -34,9 +34,16 @@
                 <td class="text-end">@team.GoalsScored</td>
                 <td class="text-end">@team.GoalsConceded</td>
                 <td class="text-end">
-                <a asp-action="Edit" asp-route-id="@team.Id" class="btn btn-sm btn-warning">Edit</a>
-                <a asp-action="Delete" asp-route-id="@team.Id" class="btn btn-sm btn-danger">Delete</a>
-            </td>
+                    <a asp-action="Details" asp-route-id="@team.Id" class="btn btn-sm btn-info">
+                        Details
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@team.Id" class="btn btn-sm btn-warning">
+                        Edit
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@team.Id" class="btn btn-sm btn-danger">
+                        Delete
+                    </a>
+                </td>
             </tr>
         }
     </tbody>

@@ -1,4 +1,5 @@
 ﻿using FootballStatistics.ViewModels.Team;
+using FootballStatistics.ViewModels.Teams;
 
 namespace FootballStatistics.Core.Contracts
 {
@@ -16,6 +17,8 @@ namespace FootballStatistics.Core.Contracts
 
         Task<bool> DeleteAsync(int id);
 
-        
+        Task<TeamDetailsViewModel?> GetDetailsAsync(int id);
+
+
     }
 }

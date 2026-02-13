@@ -40,5 +40,73 @@ namespace FootballStatistics.Controllers
             await leagueService.CreateAsync(model);
             return RedirectToAction(nameof(Index));
         }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Details(int id)
+        {
+            var model = await leagueService.GetDetailsAsync(id);
+            if (model == null) return NotFound();
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = await leagueService.GetEditModelAsync(id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, LeagueFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            bool updated = await leagueService.UpdateAsync(id, model);
+            if (!updated)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = await leagueService.GetEditModelAsync(id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            bool deleted = await leagueService.DeleteAsync(id);
+            if (!deleted)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

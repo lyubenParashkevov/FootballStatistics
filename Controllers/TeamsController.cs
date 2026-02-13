@@ -103,5 +103,14 @@ namespace FootballStatistics.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Details(int id)
+        {
+            var model = await teamService.GetDetailsAsync(id);
+            if (model == null) return NotFound();
+
+            return View(model);
+        }
     }
 }

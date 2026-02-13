@@ -3,6 +3,7 @@ using FootballStatistics.Infrastructure.Data;
 using FootballStatistics.Infrastructure.Models;
 using FootballStatistics.ViewModels.League;
 using FootballStatistics.ViewModels.Team;
+using FootballStatistics.ViewModels.Teams;
 using Microsoft.EntityFrameworkCore;
 
 namespace FootballStatistics.Core.Services
@@ -139,6 +140,23 @@ namespace FootballStatistics.Core.Services
 
         public async Task<bool> ExistsAsync(int id)
             => await dbContext.Teams.AnyAsync(t => t.Id == id);
+
+        public async Task<TeamDetailsViewModel?> GetDetailsAsync(int id)
+        {
+            return await dbContext.Teams
+                .AsNoTracking()
+                .Where(t => t.Id == id)
+                .Select(t => new TeamDetailsViewModel
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    LeagueName = t.League.Name,
+                    Points = t.Points,
+                    GoalsScored = t.GoalsScored,
+                    GoalsConceded = t.GoalsConceded
+                })
+                .FirstOrDefaultAsync();
+        }
 
         private async Task<IEnumerable<LeagueDropdownModel>> GetLeaguesAsync()
         {

@@ -40,5 +40,64 @@ namespace FootballStatistics.Core.Services
             await dbContext.Leagues.AddAsync(league);
             await dbContext.SaveChangesAsync();
         }
+
+        public async Task<LeagueDetailsViewModel?> GetDetailsAsync(int id)
+        {
+            return await dbContext.Leagues
+                .AsNoTracking()
+                .Where(l => l.Id == id)
+                .Select(l => new LeagueDetailsViewModel
+                {
+                    Id = l.Id,
+                    Name = l.Name,
+                    Country = l.Country,
+                    Teams = l.Teams
+                        .OrderBy(t => t.Name)
+                        .Select(t => t.Name)
+                        .ToList()
+                })
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<LeagueFormModel?> GetEditModelAsync(int id)
+        {
+            return await dbContext.Leagues
+                .AsNoTracking()
+                .Where(l => l.Id == id)
+                .Select(l => new LeagueFormModel
+                {
+                    Name = l.Name,
+                    Country = l.Country
+                })
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> UpdateAsync(int id, LeagueFormModel model)
+        {
+            var league = await dbContext.Leagues.FindAsync(id);
+            if (league == null)
+            {
+                return false;
+            }
+
+            league.Name = model.Name;
+            league.Country = model.Country;
+
+            await dbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var league = await dbContext.Leagues.FindAsync(id);
+            if (league == null)
+            {
+                return false;
+            }
+
+            dbContext.Leagues.Remove(league);
+            await dbContext.SaveChangesAsync();
+            return true;
+        }
     }
 }
