@@ -19,6 +19,7 @@
 </ul>
 
 <form asp-action="DeleteConfirmed" asp-route-id="@ViewContext.RouteData.Values["id"]" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
     <button type="submit" class="btn btn-danger">Delete</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>

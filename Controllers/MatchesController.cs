@@ -52,5 +52,62 @@ namespace FootballStatistics.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+      
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = await matchService.GetEditModelAsync(id);
+            if (model == null)
+                return NotFound();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, MatchFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.Teams = (await matchService.GetCreateModelAsync()).Teams;
+                return View(model);
+            }
+
+            try
+            {
+                bool updated = await matchService.UpdateAsync(id, model);
+                if (!updated)
+                    return NotFound();
+            }
+            catch (InvalidOperationException ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                model.Teams = (await matchService.GetCreateModelAsync()).Teams;
+                return View(model);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = await matchService.GetEditModelAsync(id);
+            if (model == null)
+                return NotFound();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            bool deleted = await matchService.DeleteAsync(id);
+            if (!deleted)
+                return NotFound();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

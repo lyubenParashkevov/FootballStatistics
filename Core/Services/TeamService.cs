@@ -133,9 +133,16 @@ namespace FootballStatistics.Core.Services
                 return false;
             }
 
-            dbContext.Teams.Remove(team);
-            await dbContext.SaveChangesAsync();
-            return true;
+            try
+            {
+                dbContext.Teams.Remove(team);
+                await dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateException)
+            {
+                throw new InvalidOperationException("Cannot delete team because it has played matches.");
+            }
         }
 
         public async Task<bool> ExistsAsync(int id)

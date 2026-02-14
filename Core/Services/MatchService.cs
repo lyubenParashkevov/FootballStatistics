@@ -53,6 +53,7 @@ namespace FootballStatistics.Core.Services
             {
                 throw new InvalidOperationException("Home team and away team cannot be the same.");
             }
+        
 
             bool homeExists = await dbContext.Teams.AnyAsync(t => t.Id == model.HomeTeamId.Value);
             bool awayExists = await dbContext.Teams.AnyAsync(t => t.Id == model.AwayTeamId.Value);
@@ -86,6 +87,62 @@ namespace FootballStatistics.Core.Services
                     Text = t.Name
                 })
                 .ToListAsync();
+        }
+
+        public async Task<MatchFormModel?> GetEditModelAsync(int id)
+        {
+            var match = await dbContext.Matches
+                .AsNoTracking()
+                .Where(m => m.Id == id)
+                .Select(m => new MatchFormModel
+                {
+                    HomeTeamId = m.HomeTeamId,
+                    AwayTeamId = m.AwayTeamId,
+                    HomeGoals = m.HomeGoals,
+                    AwayGoals = m.AwayGoals,
+                    MatchDate = m.MatchDate
+                })
+                .FirstOrDefaultAsync();
+
+            if (match == null)
+                return null;
+
+            match.Teams = await GetTeamsAsync();
+            return match;
+        }
+
+        public async Task<bool> UpdateAsync(int id, MatchFormModel model)
+        {
+            var match = await dbContext.Matches.FindAsync(id);
+            if (match == null)
+                return false;
+
+            if (model.HomeTeamId == null || model.AwayTeamId == null)
+                throw new InvalidOperationException("Both teams are required.");
+
+            if (model.HomeTeamId == model.AwayTeamId)
+                throw new InvalidOperationException("Home and Away teams cannot be the same.");
+        
+
+            match.HomeTeamId = model.HomeTeamId.Value;
+            match.AwayTeamId = model.AwayTeamId.Value;
+            match.HomeGoals = model.HomeGoals;
+            match.AwayGoals = model.AwayGoals;
+            match.MatchDate = model.MatchDate;
+
+            await dbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var match = await dbContext.Matches.FindAsync(id);
+            if (match == null)
+                return false;
+
+            dbContext.Matches.Remove(match);
+            await dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }
