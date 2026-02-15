@@ -21,3 +21,23 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+body {
+    background-color: deepskyblue;
+    color: white;
+}
+
+.navbar {
+    background-color: antiquewhite;
+}
+
+.btn-primary {
+    background-color: #16a34a;
+    border-color: #16a34a;
+}
+
+.table {
+    background-color: white;
+    color: black;
+}
