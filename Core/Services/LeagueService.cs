@@ -95,9 +95,17 @@ namespace FootballStatistics.Core.Services
                 return false;
             }
 
-            dbContext.Leagues.Remove(league);
-            await dbContext.SaveChangesAsync();
-            return true;
+            try
+            {
+                dbContext.Leagues.Remove(league);
+                await dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateException)
+            {
+                throw new InvalidOperationException("Cannot delete league because it has team who played matches.");
+            }
+   
         }
     }
 }

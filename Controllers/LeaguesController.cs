@@ -100,13 +100,29 @@ namespace FootballStatistics.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            bool deleted = await leagueService.DeleteAsync(id);
-            if (!deleted)
+            try
             {
-                return NotFound();
-            }
+                bool deleted = await leagueService.DeleteAsync(id);
 
-            return RedirectToAction(nameof(Index));
+                if (!deleted)
+                {
+                    return NotFound();
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (InvalidOperationException ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+
+                var model = await leagueService.GetEditModelAsync(id);
+                if (model == null)
+                {
+                    return NotFound();
+                }
+
+                return View("Delete", model);
+            }
         }
     }
 }
