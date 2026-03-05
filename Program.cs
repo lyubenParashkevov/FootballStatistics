@@ -1,10 +1,10 @@
-using FootballStatistics.Core.Contracts;
-using FootballStatistics.Core.Services;
-using FootballStatistics.Infrastructure.Data;
+using FootballStatistics.Services.Contracts;
+using FootballStatistics.Services;
+using FootballStatistics.Data.Infrastructure.Database;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace FootballStatistics
+namespace FootballStatistics.Web
 {
     public class Program
     {

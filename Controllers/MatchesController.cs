@@ -1,4 +1,4 @@
-﻿using FootballStatistics.Core.Contracts;
+﻿using FootballStatistics.Services.Contracts;
 using FootballStatistics.ViewModels.Match;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
